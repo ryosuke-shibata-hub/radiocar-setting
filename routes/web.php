@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Top\TopController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +24,8 @@ Route::prefix('/rc-setting')->group(function() {
 
     Route::get('/login', [LoginController::class, 'login'])
     ->name('login');
+    Route::get('/register', [RegisterController::class, 'register'])
+    ->name('register');
 
     Route::get('/top', [TopController::class, 'topPage'])
     ->name('topPage');

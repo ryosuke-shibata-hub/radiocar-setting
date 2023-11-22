@@ -58,6 +58,11 @@
                         </div>
                     </button>
                 </div>
+                <div class="py-5 text-center">
+                    <a href="/rc-setting/register" class="text-gray-500 focus:outline-none hover:text-neutral-600 focus:text-blue-600 sm:text-sm">
+                        新規会員登録はこちら
+                    </a>
+                </div>
             </div>
             <div class="order-first hidden w-full lg:block">
                 <img
