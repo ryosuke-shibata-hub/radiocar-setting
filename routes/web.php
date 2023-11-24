@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Top\TopController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,15 +22,31 @@ Route::prefix('/rc-setting')->group(function() {
     Route::get('/', function () {
         return view('welcome');
     });
-
+    //ログイン画面・処理
     Route::get('/login', [LoginController::class, 'login'])
     ->name('login');
+    Route::post('/login/prosess', [LoginController::class, 'loginProsess'])
+    ->name('loginProsess');
+
+    // 会員登録画面・処理
     Route::get('/register', [RegisterController::class, 'register'])
     ->name('register');
-
+    Route::post('/register/store-account', [RegisterController::class, 'storeAccount'])
+    ->name('storeAccount');
+    //トップページ画面
     Route::get('/top', [TopController::class, 'topPage'])
     ->name('topPage');
 
+
+    //認証ルート
+    Route::middleware('auth')->group(function () {
+        //ログアウト処理
+        Route::post('/logout/prosess', [LoginController::class, 'logoutProsess'])
+        ->name('logoutProsess');
+        //ユーザーページ
+        Route::get('/userpage/{id}', [UserController::class, 'userPage'])
+        ->name('userPage');
+    });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 
     // Route::get('/dashboard', function () {

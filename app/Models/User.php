@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'account_name',
         'email',
         'password',
     ];
@@ -42,4 +44,33 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public $timestamps = false;
+
+    protected $dates = [
+        'create_date',
+        'update_date',
+    ];
+
+
+    public static function storeAccount($storeAccountData)
+    {
+        $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+        $defaultLogo = config('const.USER.ACCOUNTLOGO.LOGO.DEFAULT');
+
+        $data = new User;
+        $data->account_uuid = (string) Str::uuid();
+        $data->account_id = $storeAccountData['accountId'];
+        $data->account_name = $storeAccountData['accountName'];
+        $data->email = $storeAccountData['accountEmail'];
+        $data->password = Hash::make($storeAccountData['accountPassword']);
+        $data->account_logo = $defaultLogo;
+        $data->delete_flg = $delete_flg;
+        $data->create_date = now();
+        $data->update_date = now();
+        $data->save();
+
+        return $data;
+
+    }
 }

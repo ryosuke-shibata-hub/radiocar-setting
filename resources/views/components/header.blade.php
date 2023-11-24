@@ -11,10 +11,13 @@
         </div>
 
         <nav :class="{'flex': open, 'hidden': !open}" class="flex-col items-center flex-grow hidden pb-4 border-blue-600 md:pb-0 md:flex md:justify-end md:flex-row lg:border-l-2 lg:pl-2">
-            <a
-                class="px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline" href="#">
-                マイページ
-            </a>
+            @if(Auth::check())
+                <a
+                    href="/rc-setting/userpage/{{ Auth::user()->account_id }}"
+                    class="px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline">
+                    マイページ
+                </a>
+            @endif
             <a
                 class="px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline" href="#">
                 トップ
@@ -38,19 +41,31 @@
                     </div>
                 </div>
             </div> --}}
-
-            <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
-                <a
-                    href="/rc-setting/login"
-                    class="items-center block px-10 py-2.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    ログイン
-                </a>
-                <a
-                    href="/rc-setting/register"
-                    class="items-center block px-10 py-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    会員登録
-                </a>
-            </div>
+            @if(!Auth::check())
+                <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
+                    <a
+                        href="/rc-setting/login"
+                        class="items-center block px-10 py-2.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        ログイン
+                    </a>
+                    <a
+                        href="/rc-setting/register"
+                        class="items-center block px-10 py-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        会員登録
+                    </a>
+                </div>
+            @else
+                <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
+                    <form action="/rc-setting/logout/prosess" method="POST">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="items-center block px-5 py-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            ログアウト<i class="pl-1 fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </form>
+                </div>
+            @endif
         </nav>
     </div>
 </div>

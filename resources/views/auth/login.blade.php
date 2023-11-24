@@ -14,23 +14,40 @@
                             <div class="mt-4 text-sm text-gray-500">
                                 <p>ログインして全ての機能をお楽しみください</p>
                             </div>
+                            @include('components.Message.error_message')
                         </div>
                     </div>
-
-                    <div class="py-5 mt-6 space-y-2">
-                        <div>
-                            <label for="email" class="sr-only">Email</label>
-                            <input type="text" name="email" id="email" class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" placeholder="登録済みメールアドレス">
+                    <form action="/rc-setting/login/prosess" method="POST">
+                        @csrf
+                        <div class="py-5 mt-6 space-y-2">
+                            <div>
+                                <label for="email" class="sr-only">Email</label>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    id="email"
+                                    class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                                    placeholder="メールアドレス"
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label for="password" class="sr-only">Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                                    placeholder="パスワード"
+                                    required
+                                >
+                            </div>
+                            <div class="flex flex-col mt-4 lg:space-y-2">
+                                <button type="submit" class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">ログイン</button>
+                                <a href="#" type="button" class="inline-flex justify-center py-4 text-base font-medium text-gray-500 focus:outline-none hover:text-neutral-600 focus:text-blue-600 sm:text-sm"> パスワードをお忘れですか？ </a>
+                            </div>
                         </div>
-                        <div>
-                            <label for="password" class="sr-only">Password</label>
-                            <input type="text" name="password" id="password" class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" placeholder="パスワード">
-                        </div>
-                        <div class="flex flex-col mt-4 lg:space-y-2">
-                            <button type="button" class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">ログイン</button>
-                            <a href="#" type="button" class="inline-flex justify-center py-4 text-base font-medium text-gray-500 focus:outline-none hover:text-neutral-600 focus:text-blue-600 sm:text-sm"> パスワードをお忘れですか？ </a>
-                        </div>
-                    </div>
+                    </form>
                     <div class="relative my-4">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-300"></div>

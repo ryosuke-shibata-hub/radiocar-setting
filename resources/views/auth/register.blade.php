@@ -2,7 +2,9 @@
 @section('content')
 @section('title', '会員登録')
 <section class="h-screen">
+
     <div class="container h-full px-6 py-24">
+        @include('components.Message.succsess_message')
         <div
             class="flex flex-wrap items-center justify-center h-full g-6 lg:justify-between">
             <!-- Left column container with background-->
@@ -10,82 +12,104 @@
                 <img
                     src="{{ asset('/img/registerPage.jpg') }}"
                     class="w-full"
-                    alt="Phone image"
+                    alt="image"
                 />
             </div>
 
             <!-- Right column container with form -->
             <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
-                <form action="" method="POST">
+                <form action="/rc-setting/register/store-account" method="POST">
                     @csrf
                     <div class="relative mb-6 font-bold text-neutral-500">
                         <p class="">
                             ー アカウント作成 ー
                         </p>
+                        @include('components.Message.error_message')
                     </div>
                     <!-- Email input -->
                     <div class="relative mb-6">
+                        <label class="text-sm font-bold text-neutral-500">
+                            アカウント名
+                            <br>
+                            <p class="text-xs text-red-500">
+                                ※アカウント名は16文字以内に設定してください。
+                            </p>
+
+                        </label>
                         <input
                             type="text"
                             name="accountName"
-                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-gray-300 border-2"
+                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear border-gray-300 border-2"
                             id="exampleFormControlInputAccountName"
                             placeholder="アカウント名"
+                            required
                         />
-                        <label
-                            for="exampleFormControlInputAccountName"
-                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.50rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[2rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >
-                            アカウント名
-                        </label>
                     </div>
 
                     <!-- Email input -->
                     <div class="relative mb-6">
+                        <label class="text-sm font-bold text-neutral-500">
+                            アカウントID
+                            <br>
+                            <p class="text-xs text-red-500">
+                                ※アカウントIDは英数字20文字以内に設定してください。
+                            </p>
+
+                        </label>
+                        <input
+                            type="text"
+                            name="accountId"
+                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear border-gray-300 border-2"
+                            id="exampleFormControlInputAccountName"
+                            placeholder="アカウントID"
+                            required
+                        />
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="relative mb-6">
+                        <label class="text-sm font-bold text-neutral-500">
+                            メールアドレス
+                        </label>
                         <input
                             type="email"
                             name="email"
-                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-gray-300 border-2"
+                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear border-gray-300 border-2"
                             id="exampleFormControlAccountEmail"
                             placeholder="email@example.com"
+                            required
                         />
-                        <label
-                            for="exampleFormControlAccountEmail"
-                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.50rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[2rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >
-                            メールアドレス
-                        </label>
                     </div>
 
                     <!-- Password input -->
                     <div class="relative mb-6" data-te-input-wrapper-init>
-                        <input
-                            type="password"
-                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-gray-300 border-2"
-                            id="exampleFormControlAccountPassword"
-                            placeholder="Password"
-                        />
-                        <label
-                            for="exampleFormControlAccountPassword"
-                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.50rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[2rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >
+                        <label class="text-sm font-bold text-neutral-500">
                             パスワード
+                            <br>
+                            <p class="text-xs text-red-500">
+                                ※パスワードは半角英数記号(大文字小文字)をそれぞれ一つ以上含み8文字以上で入力してください。
+                            </p>
                         </label>
+                        <input
+                            name="password"
+                            type="password"
+                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear border-gray-300 border-2"
+                            id="exampleFormControlAccountPassword"
+                            required
+                        />
                     </div>
 
                     <div class="relative mb-6" data-te-input-wrapper-init>
-                        <input
-                            type="confirmPassword"
-                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-gray-300 border-2"
-                            id="exampleFormControlConfirmeAccountPassword"
-                            placeholder="Password"
-                        />
-                        <label
-                            for="exampleFormControlConfirmeAccountPassword"
-                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.50rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[2rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                        >
+                        <label class="text-sm font-bold text-neutral-500">
                             確認用パスワード
                         </label>
+                        <input
+                            name="passwordConfirm"
+                            type="password"
+                            class="peer block min-h-[auto] w-full rounded bg-transparent px-3 py-[0.32rem] leading-[2.15] transition-all duration-200 ease-linear border-gray-300 border-2"
+                            id="exampleFormControlConfirmeAccountPassword"
+                            required
+                        />
                     </div>
 
                     <!-- Remember me checkbox -->
@@ -94,9 +118,10 @@
                             <input
                                 class="relative float-left -ml-[1.5rem] mr-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="checkbox"
-                                value=""
-                                name="confirmPolicies"
+                                value="1"
+                                name="checkedPolicies"
                                 id="exampleCheck"
+                                required
                                 {{-- checked --}}
                             />
                             <label
