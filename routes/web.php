@@ -46,6 +46,8 @@ Route::prefix('/rc-setting')->group(function() {
         //ユーザーページ
         Route::get('/userpage/{id}', [UserController::class, 'userPage'])
         ->name('userPage');
+        Route::get('/mypage/account/setting', [UserController::class, 'accountSetting'])
+        ->name('accountSetting');
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 

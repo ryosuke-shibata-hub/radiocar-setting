@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -72,5 +72,16 @@ class User extends Authenticatable
 
         return $data;
 
+    }
+
+    public static function findUserToUserId($id)
+    {
+        $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+
+        $result = User::where('account_id', $id)
+        ->where('delete_flg', $delete_flg)
+        ->first();
+
+        return $result;
     }
 }

@@ -8,7 +8,7 @@ return [
         ],
         'ACCOUNTLOGO' => [
             'LOGO' => [
-                'DEFAULT' => '',
+                'DEFAULT' => 'img/userlogo/default_user_logo.jpg',
             ],
             'BACKGROUNDLOGO' => [
                 'DEFAULT' => '',
