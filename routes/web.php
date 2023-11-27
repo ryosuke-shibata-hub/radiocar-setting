@@ -46,8 +46,18 @@ Route::prefix('/rc-setting')->group(function() {
         //ユーザーページ
         Route::get('/userpage/{id}', [UserController::class, 'userPage'])
         ->name('userPage');
+        //アカウント情報ページ
         Route::get('/mypage/account/setting', [UserController::class, 'accountSetting'])
         ->name('accountSetting');
+        //アカウント情報編集
+        Route::post('/rc-setting/user/update/account_data', [UserController::class, 'updateAccountData'])
+        ->name('updateAccountData');
+        //パスワード変更
+        Route::post('/rc-setting/user/update/password', [UserController::class, 'updatePassword'])
+        ->name('updatePassword');
+        //アカウント削除
+        Route::POST('/rc-setting/user/delete', [UserController::class, 'deleteAccount'])
+        ->name('deleteAccount');
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 

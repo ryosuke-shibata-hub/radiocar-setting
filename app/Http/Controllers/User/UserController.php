@@ -14,7 +14,31 @@ class UserController extends Controller
     {
         $targetUser = User::findUserToUserId($id);
 
-        return view('contents.userpage')
+        return view('contents.user_page')
         ->with('targetUser', $targetUser);
+    }
+
+    public function accountSetting(Request $request)
+    {
+        if (Auth::check()) {
+            return view('contents.usersetting_page');
+        }
+
+        return redirect('return redirect/rc-setting/error/401');
+    }
+
+    public function updateAccountData(Request $request)
+    {
+        # code...
+    }
+
+    public function updatePassword(Request $request)
+    {
+        # code...
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        # code...
     }
 }
