@@ -2,7 +2,6 @@
 @section('content')
 @section('title', '会員登録')
 <section class="h-screen">
-
     <div class="container h-full px-6 py-24">
         @include('components.Message.succsess_message')
         <div

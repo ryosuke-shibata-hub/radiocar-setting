@@ -35,3 +35,14 @@
     </div>
 </div>
 @endif
+
+
+@if(session('succsess_message'))
+<div class="p-2">
+    <div class="p-1 font-bold text-center text-white bg-blue-500 text-normal rounded-xl">
+        <p class="">
+            {{ session('succsess_message') }}
+        </p>
+    </div>
+</div>
+@endif

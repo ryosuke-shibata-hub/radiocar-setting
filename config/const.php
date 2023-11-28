@@ -10,6 +10,9 @@ return [
             'LOGO' => [
                 'DEFAULT' => 'img/userlogo/default_user_logo.jpg',
             ],
+            'DIRPATH' => [
+                'PATH' => '/img/userlogo/',
+            ],
             'BACKGROUNDLOGO' => [
                 'DEFAULT' => '',
             ],

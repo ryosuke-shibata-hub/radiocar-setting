@@ -4,6 +4,7 @@
 <!-- component -->
 <section>
     <div class="w-9/12 py-4 mx-auto">
+        @include('components.Message.succsess_message')
         <div class="flex-wrap rounded-xl">
             <div class="justify-center order-first pl-5 font-bold text-gray-600 lg:block">
                 <span>
@@ -14,6 +15,7 @@
                 @include('components.Message.error_message')
                 <form action="/rc-setting/user/update/account_data" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="targetAccountId" value={{ Auth::user()->account_id }}>
                     <div class="py-5 mt-6 space-y-2 font-sans text-gray-600">
                         <div class="py-2">
                             <label for="account_img" class="text-sm">アカウントイメージ</label>
@@ -27,30 +29,27 @@
                                 name="account_img"
                                 id="account_img"
                                 class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                                required
                             >
                         </div>
                         <div class="py-2">
-                            <label for="account_id" class="text-sm">アカウントID</label>
+                            <label for="accountId" class="text-sm">アカウントID</label>
                             <input
                                 type="text"
-                                name="account_id"
-                                id="account_id"
+                                name="accountId"
+                                id="accountId"
                                 value={{ Auth::user()->account_id }}
-                                class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                                required
                                 disabled
+                                class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                             >
                         </div>
                         <div class="py-2">
-                            <label for="account_name" class="text-sm">アカウント名</label>
+                            <label for="accountName" class="text-sm">アカウント名</label>
                             <input
                                 type="text"
-                                name="account_name"
-                                id="account_name"
+                                name="accountName"
+                                id="accountName"
                                 value={{ Auth::user()->account_name }}
                                 class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                                required
                             >
                         </div>
                         <div class="py-2">
@@ -61,8 +60,15 @@
                                 id="email"
                                 value={{ Auth::user()->email }}
                                 class="block w-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                                required
                             >
+                        </div>
+                        <div class="py-2">
+                            <label for="profileComment" class="text-sm">自己紹介</label>
+                            <textarea
+                                name="profileComment"
+                                id="profileComment"
+                                class="block w-full h-full px-5 py-3 text-base placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg text-neutral-600 bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                            >{{ Auth::user()->comment }}</textarea>
                         </div>
                     </div>
                     <div class="text-right">

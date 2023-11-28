@@ -74,6 +74,22 @@ class User extends Authenticatable
 
     }
 
+    public static function checkUniqueUser($updateAccountData, $targetAuthUser)
+    {
+        $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+
+        //アカウントネームとメールアドレスの重複チェック（自分以外のアカウント）
+        $checkUniqueUser = User::where(function ($query) use ($updateAccountData) {
+            $query->where('account_name', $updateAccountData['accountName'])
+            ->orWhere('email', $updateAccountData['accountEmail']);
+        })
+        ->where('delete_flg', $delete_flg)
+        ->where('account_uuid', '<>', $targetAuthUser)
+        ->first();
+
+        return $checkUniqueUser;
+    }
+
     public static function findUserToUserId($id)
     {
         $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
@@ -83,5 +99,25 @@ class User extends Authenticatable
         ->first();
 
         return $result;
+    }
+
+    public static function updateProfile($updateAccount, $targetAuthUser, $updateLogo)
+    {
+        $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+
+        $targetUser = User::where('account_id', $updateAccount['accountId'])
+        ->where('account_uuid', $targetAuthUser)
+        ->where('delete_flg', $delete_flg)
+        ->first();
+
+        $targetUpdateAccount = $targetUser;
+        $targetUpdateAccount->account_name = $updateAccount['accountName'];
+        $targetUpdateAccount->email = $updateAccount['accountEmail'];
+        $targetUpdateAccount->comment = $updateAccount['profileComment'];
+        $targetUpdateAccount->account_logo = $updateLogo;
+        $targetUpdateAccount->update_date = now();
+        $targetUpdateAccount->save();
+
+        return $targetUpdateAccount;
     }
 }
