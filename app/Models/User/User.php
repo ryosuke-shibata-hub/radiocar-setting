@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     }
 
-    public static function checkUniqueUser($updateAccountData, $targetAuthUser)
+    public static function checkUniqueUser($updateAccountData)
     {
         $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
 
@@ -84,7 +84,7 @@ class User extends Authenticatable
             ->orWhere('email', $updateAccountData['accountEmail']);
         })
         ->where('delete_flg', $delete_flg)
-        ->where('account_uuid', '<>', $targetAuthUser)
+        ->where('account_uuid', '<>', $updateAccountData['targetAuthUser'])
         ->first();
 
         return $checkUniqueUser;
@@ -101,23 +101,43 @@ class User extends Authenticatable
         return $result;
     }
 
-    public static function updateProfile($updateAccount, $targetAuthUser, $updateLogo)
+    public static function updateProfile($targetData)
     {
         $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
 
-        $targetUser = User::where('account_id', $updateAccount['accountId'])
-        ->where('account_uuid', $targetAuthUser)
+        $targetUser = User::where('account_id', $targetData['accountId'])
+        ->where('account_uuid', $targetData['targetAuthUser'])
         ->where('delete_flg', $delete_flg)
         ->first();
 
-        $targetUpdateAccount = $targetUser;
-        $targetUpdateAccount->account_name = $updateAccount['accountName'];
-        $targetUpdateAccount->email = $updateAccount['accountEmail'];
-        $targetUpdateAccount->comment = $updateAccount['profileComment'];
-        $targetUpdateAccount->account_logo = $updateLogo;
-        $targetUpdateAccount->update_date = now();
-        $targetUpdateAccount->save();
+        if ($targetData['accountUpdateRoute'] === 1) {
+            $targetUpdateAccount = $targetUser;
+            $targetUpdateAccount->account_name = $targetData['accountName'];
+            $targetUpdateAccount->email = $targetData['accountEmail'];
+            $targetUpdateAccount->comment = $targetData['profileComment'];
+            $targetUpdateAccount->account_logo = $targetData['account_img'];
+            $targetUpdateAccount->update_date = now();
+            $targetUpdateAccount->save();
 
-        return $targetUpdateAccount;
+            return $targetUpdateAccount;
+        }
+
+        if ($targetData['accountUpdateRoute'] === 2) {
+            $targetUpdateAccount = $targetUser;
+            $targetUpdateAccount->password = Hash::make($targetData['newPassword']);
+            $targetUpdateAccount->update_date = now();
+            $targetUpdateAccount->save();
+
+            return $targetUpdateAccount;
+        }
+
+        if ($targetData['accountUpdateRoute'] === 3) {
+            $targetUpdateAccount = $targetUser;
+            $targetUpdateAccount->delete_flg = config('const.USER.DELETE_FLG.DISABLED');
+            $targetUpdateAccount->update_date = now();
+            $targetUpdateAccount->save();
+
+            return $targetUpdateAccount;
+        }
     }
 }

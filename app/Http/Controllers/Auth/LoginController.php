@@ -43,9 +43,10 @@ class LoginController extends Controller
                 return redirect('/rc-setting/top');
             }
 
-            return redirect('/rc-setting/login')->with('err_message','**メールアドレスまたはパスワードが違います。');
+            return redirect('/rc-setting/login')->with('err_message','メールアドレスまたはパスワードが違います。');
         } catch (\Throwable $th) {
-            //throw $th;
+            return redirect('/rc-setting/login')
+            ->with('err_message','ログイン処理に失敗しました。再度お試しください。');
         }
     }
 

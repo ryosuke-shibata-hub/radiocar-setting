@@ -5,6 +5,7 @@
 <section>
     <div class="w-9/12 py-4 mx-auto">
         @include('components.Message.succsess_message')
+        @include('components.Message.error_message')
         <div class="flex-wrap rounded-xl">
             <div class="justify-center order-first pl-5 font-bold text-gray-600 lg:block">
                 <span>
@@ -12,7 +13,6 @@
                 </span>
             </div>
             <div class="w-full px-6 py-3">
-                @include('components.Message.error_message')
                 <form action="/rc-setting/user/update/account_data" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="targetAccountId" value={{ Auth::user()->account_id }}>
@@ -91,9 +91,9 @@
                 </span>
             </div>
             <div class="w-full px-6 py-3">
-                @include('components.Message.error_message')
                 <form action="/rc-setting/user/update/password" method="POST">
                     @csrf
+                    <input type="hidden" name="targetAccountId" value={{ Auth::user()->account_id }}>
                     <div class="py-5 mt-6 space-y-2 font-sans text-gray-600">
                         <div class="py-2">
                             <label for="current_password" class="text-sm">現在のパスワード</label>
@@ -149,9 +149,9 @@
                 </span>
             </div>
             <div class="w-full px-6 py-3">
-                @include('components.Message.error_message')
                 <form action="/rc-setting/user/delete" method="POST">
                     @csrf
+                    <input type="hidden" name="targetAccountId" value={{ Auth::user()->account_id }}>
                     <div class="py-5 mt-6 space-y-2 font-sans text-gray-600">
                         <div class="py-2">
                             <span class="text-xs text-red-500">

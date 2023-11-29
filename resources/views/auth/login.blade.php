@@ -17,6 +17,7 @@
                                 <p>ログインして全ての機能をお楽しみください</p>
                             </div>
                             @include('components.Message.error_message')
+                            @include('components.Message.succsess_message')
                         </div>
                     </div>
                     <form action="/rc-setting/login/prosess" method="POST">

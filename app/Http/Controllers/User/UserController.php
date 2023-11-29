@@ -53,23 +53,7 @@ class UserController extends Controller
         }
 
         try {
-            $updateAccountData = [
-                'accountName' => $request->accountName,
-                'accountId' => $request->targetAccountId,
-                'accountEmail' => $request->email,
-                'profileComment' => $request->profileComment,
-                'account_img' => $request->account_img,
-            ];
 
-            $targetAuthUser = Auth::user()->account_uuid;
-
-            $checkUniqueUser = User::checkUniqueUser($updateAccountData, $targetAuthUser);
-
-            // dd($checkUniqueUser);
-            if ($checkUniqueUser !== null) {
-                return redirect('/rc-setting/mypage/account/setting')
-                ->with('err_message','このアカウント名またはメールアドレスは使用できません。');
-            }
             $requestImg = $request->file('account_img');
 
             if ($requestImg) {
@@ -78,9 +62,26 @@ class UserController extends Controller
                 $updateLogo = Auth::user()->account_logo;
             }
 
+            $targetData = [
+                'accountName' => $request->accountName,
+                'accountId' => $request->targetAccountId,
+                'accountEmail' => $request->email,
+                'profileComment' => $request->profileComment,
+                'account_img' => $updateLogo,
+                'targetAuthUser' => Auth::user()->account_uuid,
+                'accountUpdateRoute' => 1,
+            ];
+
+            $checkUniqueUser = User::checkUniqueUser($targetData);
+
+            if ($checkUniqueUser !== null) {
+                return redirect('/rc-setting/mypage/account/setting')
+                ->with('err_message','このアカウント名またはメールアドレスは使用できません。');
+            }
+
             DB::beginTransaction();
 
-            $updateAccount = User::updateProfile($updateAccountData, $targetAuthUser, $updateLogo);
+            $updateAccount = User::updateProfile($targetData);
 
             DB::commit();
 
@@ -96,11 +97,82 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-        # code...
+        $validator = Validator::make($request->all(),[
+            'current_password' => [
+                'regex:/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[!-\/:-@[-`{-~])[!-~]{8,100}+\z/i','string','bail','required','current_password'],
+            'new_password' => [
+                'regex:/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[!-\/:-@[-`{-~])[!-~]{8,100}+\z/i','string','bail','required'],
+            'new_password_confirm' => [
+                'regex:/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[!-\/:-@[-`{-~])[!-~]{8,100}+\z/i','string','bail','required','same:new_password'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/rc-setting/mypage/account/setting')
+            ->with('err_message_password','err_message_password')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        try {
+
+            $targetData = [
+                'accountId' => $request->targetAccountId,
+                'targetAuthUser' => Auth::user()->account_uuid,
+                'newPassword' => $request->new_password,
+                'accountUpdateRoute' => 2,
+            ];
+
+            DB::beginTransaction();
+
+            $updatePassword = User::updateProfile($targetData);
+
+            DB::commit();
+
+            return redirect('/rc-setting/mypage/account/setting')
+            ->with('succsess_message', 'アカウントパスワードを更新しました。');
+        } catch (\Throwable $th) {
+            Log::error('パスワード更新処理で例外処理発生',[$th]);
+            return redirect('/rc-setting/mypage/account/setting')
+            ->with('err_message','パスワードの更新処理に失敗しました。再度お試しください。');
+        }
     }
 
     public function deleteAccount(Request $request)
     {
-        # code...
+        $validator = Validator::make($request->all(),[
+            'targetAccountId' => ['bail', 'required', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            Log::error("アカウント削除でアカウントIDがない",[$request]);
+            return redirect('/rc-setting/error/500');
+        }
+
+        try {
+
+            $targetData = [
+                'accountId' => $request->targetAccountId,
+                'targetAuthUser' => Auth::user()->account_uuid,
+                'accountUpdateRoute' => 3,
+            ];
+
+            DB::beginTransaction();
+
+            $deleteUser =  User::updateProfile($targetData);
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            DB::commit();
+
+            return redirect('/rc-setting/login')
+            ->with('succsess_message', 'アカウントの削除が完了しました。');
+
+        } catch (\Throwable $th) {
+            Log::error('アカウント削除処理で例外処理発生',[$th]);
+            return redirect('/rc-setting/mypage/account/setting')
+            ->with('err_message','アカウントの削除処理に失敗しました。再度お試しください。');
+        }
     }
 }
