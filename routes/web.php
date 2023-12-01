@@ -6,6 +6,7 @@ use App\Http\Controllers\Top\TopController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Setting\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,12 @@ Route::prefix('/rc-setting')->group(function() {
         //アカウント削除
         Route::POST('/user/delete', [UserController::class, 'deleteAccount'])
         ->name('deleteAccount');
+        //セッティングの投稿
+        Route::get('/store/setting/edit/mysetting', [SettingController::class, 'editMySetting'])
+        ->name('storeMySetting');
+        //セッティングの投稿
+        Route::post('/store/setting/mysetting', [SettingController::class, 'storeMySetting'])
+        ->name('storeMySetting');
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 

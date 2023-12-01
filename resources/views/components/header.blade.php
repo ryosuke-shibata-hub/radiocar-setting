@@ -45,22 +45,33 @@
                 <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
                     <a
                         href="/rc-setting/login"
-                        class="items-center block px-10 py-2.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        class="items-center block px-2 py-2 text-xs text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                         ログイン
                     </a>
                     <a
                         href="/rc-setting/register"
-                        class="items-center block px-10 py-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        class="items-center block px-2 py-2 text-xs text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         会員登録
                     </a>
                 </div>
             @else
                 <div class="inline-flex items-center gap-2 list-none lg:ml-auto">
+                    <div class="">
+                        <img
+                            src="{{ Storage::url(Auth::user()->account_logo) }}"
+                            class="object-cover mx-auto border-2 border-gray-500 rounded-full w-14 h-14 dark:border-gray-800"
+                        />
+                    </div>
+                    <a
+                        href="/rc-setting/store/setting/edit/mysetting"
+                        class="items-center block px-2 py-2 text-xs text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        セッティングを登録する
+                    </a>
                     <form action="/rc-setting/logout/prosess" method="POST">
                         @csrf
                         <button
                             type="submit"
-                            class="items-center block px-5 py-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            class="items-center block px-2 py-2 text-xs text-center text-white transition duration-500 ease-in-out transform bg-blue-600 font-xs rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             ログアウト<i class="pl-1 fa-solid fa-right-from-bracket"></i>
                         </button>
                     </form>
