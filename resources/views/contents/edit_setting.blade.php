@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @section('title', 'セッティング登録')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 <script src="{{ asset('/static/js/upload_image.js') }}" defer></script>
 <!-- component -->
 <div class="flex items-center justify-center p-6">
@@ -15,15 +16,39 @@
                         </div>
 
                         <div class="lg:col-span-4">
-                            <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5">
-                                <div class="text-xs md:col-span-2">
+                            <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-3">
+                                <div class="text-xs md:col-span-1">
                                     <label for="corse">コース・場所</label>
                                     <input type="text" name="corse" id="corse" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
                                 </div>
 
-                                <div class="text-xs md:col-span-2">
+                                <div class="text-xs md:col-span-1">
                                     <label for="genre">ジャンル</label>
-                                    <input type="text" name="genre" id="genre" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
+                                    <select
+                                        id="countries"
+                                        class="block w-full p-2 mt-1 text-sm text-gray-900 border border-gray-500 rounded bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected>----</option>
+                                        <option
+                                            name="genre"
+                                            value="{{ config('const.RESETTING.GENRE.ONROAD') }}">
+                                            オンロード
+                                        </option>
+                                        <option
+                                            name="genre"
+                                            value="{{ config('const.RESETTING.GENRE.OFFROAD') }}">
+                                            オフロード
+                                        </option>
+                                        <option
+                                            name="genre"
+                                            value="{{ config('const.RESETTING.GENRE.DRIFT') }}">
+                                            ドリフト
+                                        </option>
+                                        <option
+                                            name="genre"
+                                            value="{{ config('const.RESETTING.GENRE.OTHER') }}">
+                                            その他
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -34,13 +59,12 @@
                         </div>
 
                         <div class="lg:col-span-4">
-                            <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-5">
-                                <div class="text-xs md:col-span-2">
+                            <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-3">
+                                <div class="text-xs md:col-span-1">
                                     <label for="chassis">シャーシ</label>
                                     <input type="text" name="chassis" id="chassis" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
                                 </div>
-
-                                <div class="text-xs md:col-span-2">
+                                <div class="text-xs md:col-span-1">
                                     <label for="transmitter">プロポ</label>
                                     <input type="text" name="transmitter" id="transmitter" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
                                 </div>
@@ -236,13 +260,22 @@
                             <p class="text-lg font-medium">PublishingSettings</p>
                         </div>
                         <div class="lg:col-span-4">
-                            <div class="grid grid-cols-1 gap-1 pb-2 text-sm gap-y-2 md:grid-cols-1">
+                            <div class="grid grid-cols-1 gap-1 pb-2 text-sm gap-y-2 md:grid-cols-5">
                                 <div class="text-xs md:col-span-1">
-                                    <label for="memo">セッティングの公開設定</label>
-                                    <br>
-                                    <select class="px-2 mt-3 border rounded bg-gray-50">
-                                        <option class="" name="" value="">公開</option>
-                                        <option class="" name="" value="">非公開</option>
+                                    <select
+                                        id="countries"
+                                        class="block w-full p-2 mt-1 text-sm text-gray-900 border border-gray-500 rounded bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected>----</option>
+                                        <option
+                                            name="publish_setting"
+                                            value="{{ config('const.RCSETTING.PUBLISHSETTING.PUBLIC') }}">
+                                            公開
+                                        </option>
+                                        <option
+                                            name="publish_setting"
+                                            value="{{ config('const.RCSETTING.PUBLISHSETTING.PRIVATE') }}">
+                                            非公開
+                                        </option>
                                     </select>
                                 </div>
                             </div>

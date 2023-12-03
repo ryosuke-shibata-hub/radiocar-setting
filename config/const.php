@@ -18,4 +18,16 @@ return [
             ],
         ],
     ],
+    'RCSETTING' => [
+        'PUBLISHSETTING' => [
+            'PUBLIC' => 0,
+            'PRIVATE' => 1,
+        ],
+        'GENRE' => [
+            'ONROAD' => 0,
+            'OFFROAD' => 1,
+            'DRIFT' => 2,
+            'OTHER' => 10,
+        ],
+    ],
 ];
