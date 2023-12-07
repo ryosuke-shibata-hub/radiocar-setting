@@ -12,5 +12,6 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->logoPath = config('const.USER.DIRPATH.PATH');
+        $this->settingImagePath = config('const.RCSETTING.DIRPATH.PATH');
     }
 }

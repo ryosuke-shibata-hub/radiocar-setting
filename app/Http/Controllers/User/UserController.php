@@ -108,7 +108,7 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return redirect('/rc-setting/mypage/account/setting')
-            ->with('err_message_password','err_message_password')
+            // ->with('err_message_password','err_message_password')
             ->withErrors($validator)
             ->withInput();
         }
