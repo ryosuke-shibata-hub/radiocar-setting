@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\User\User;
+use App\Models\Setting\MySetting;
 
 use Log;
 use DB;
@@ -19,12 +20,14 @@ class UserController extends Controller
         $this->logoPath = config('const.USER.ACCOUNTLOGO.DIRPATH.PATH');
     }
 
-    public function userPage($id)
+    public function userPage($account_id)
     {
-        $targetUser = User::findUserToUserId($id);
+        $targetUser = User::findUserToUserId($account_id);
+        $settingList = MySetting::SettingList($account_id);
 
         return view('contents.user_page')
-        ->with('targetUser', $targetUser);
+        ->with('targetUser', $targetUser)
+        ->with('settingList', $settingList);
     }
 
     public function accountSetting(Request $request)

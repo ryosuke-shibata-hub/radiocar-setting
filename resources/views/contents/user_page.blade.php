@@ -100,11 +100,7 @@
                         </p>
                     </div>
                     <div class="hidden opacity-0" id="MySetting" role="tabpanel">
-                        <p
-                            class="block font-sans text-base antialiased font-light leading-relaxed text-center text-inherit text-blue-gray-500"
-                        >
-                            投稿したセッティング情報がありません...<i class="fa-regular fa-comment-dots"></i>
-                        </p>
+                        @include('components.setting.setting_list')
                     </div>
                     <div class="hidden opacity-0" id="FavoriteSetting" role="tabpanel">
                         <p

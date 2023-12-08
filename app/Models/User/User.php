@@ -90,11 +90,11 @@ class User extends Authenticatable
         return $checkUniqueUser;
     }
 
-    public static function findUserToUserId($id)
+    public static function findUserToUserId($account_id)
     {
         $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
 
-        $result = User::where('account_id', $id)
+        $result = User::where('account_id', $account_id)
         ->where('delete_flg', $delete_flg)
         ->first();
 
@@ -139,5 +139,20 @@ class User extends Authenticatable
 
             return $targetUpdateAccount;
         }
+    }
+
+    public static function SettingList($id)
+    {
+        $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+        $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
+
+        $data = User::where('users.account_id', $id)
+        ->where('users.delete_flg', $user_delete_flg)
+        ->join('rc_setting','users.account_uuid','=','rc_setting.account_uuid')
+        ->where('rc_setting.delete_flg',$setting_delete_flg)
+        ->orderBy('rc_setting.update_date','desc')
+        ->get();
+
+        return $data;
     }
 }

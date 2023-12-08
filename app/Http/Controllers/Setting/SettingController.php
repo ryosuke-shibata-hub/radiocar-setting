@@ -13,6 +13,18 @@ use App\Models\Setting\MySetting;
 use Log;
 class SettingController extends Controller
 {
+    public function viewSetting($setting_id)
+    {
+        try {
+            $targetSetting = MySetting::viewSetting($setting_id);
+
+            return view('contents.view_setting')
+            ->with('targetSetting', $targetSetting);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+    }
     public function editMySetting()
     {
         return vieW('contents.edit_setting');

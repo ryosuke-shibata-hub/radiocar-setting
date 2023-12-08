@@ -45,7 +45,7 @@ Route::prefix('/rc-setting')->group(function() {
         Route::post('/logout/prosess', [LoginController::class, 'logoutProsess'])
         ->name('logoutProsess');
         //ユーザーページ
-        Route::get('/userpage/{id}', [UserController::class, 'userPage'])
+        Route::get('/userpage/{account_id}', [UserController::class, 'userPage'])
         ->name('userPage');
         //アカウント情報ページ
         Route::get('/mypage/account/setting', [UserController::class, 'accountSetting'])
@@ -59,12 +59,16 @@ Route::prefix('/rc-setting')->group(function() {
         //アカウント削除
         Route::POST('/user/delete', [UserController::class, 'deleteAccount'])
         ->name('deleteAccount');
-        //セッティングの投稿
+        //セッティングの投稿画面
         Route::get('/store/setting/edit/mysetting', [SettingController::class, 'editMySetting'])
         ->name('storeMySetting');
-        //セッティングの投稿
+        //セッティングの投稿処理
         Route::post('/store/setting/mysetting', [SettingController::class, 'storeMySetting'])
         ->name('storeMySetting');
+        //セッティングの詳細画面
+        Route::get('/setting/{setting_id}', [SettingController::class, 'viewSetting'])
+        ->name('viewSetting');
+
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 
