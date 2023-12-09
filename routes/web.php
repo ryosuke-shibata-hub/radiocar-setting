@@ -38,15 +38,17 @@ Route::prefix('/rc-setting')->group(function() {
     Route::get('/top', [TopController::class, 'topPage'])
     ->name('topPage');
 
-
+    //セッティングの詳細画面
+    Route::get('/setting/{setting_id}', [SettingController::class, 'viewSetting'])
+    ->name('viewSetting');
+    //ユーザーページ
+    Route::get('/userpage/{account_id}', [UserController::class, 'userPage'])
+    ->name('userPage');
     //認証ルート
     Route::middleware('auth')->group(function () {
         //ログアウト処理
         Route::post('/logout/prosess', [LoginController::class, 'logoutProsess'])
         ->name('logoutProsess');
-        //ユーザーページ
-        Route::get('/userpage/{account_id}', [UserController::class, 'userPage'])
-        ->name('userPage');
         //アカウント情報ページ
         Route::get('/mypage/account/setting', [UserController::class, 'accountSetting'])
         ->name('accountSetting');
@@ -65,9 +67,7 @@ Route::prefix('/rc-setting')->group(function() {
         //セッティングの投稿処理
         Route::post('/store/setting/mysetting', [SettingController::class, 'storeMySetting'])
         ->name('storeMySetting');
-        //セッティングの詳細画面
-        Route::get('/setting/{setting_id}', [SettingController::class, 'viewSetting'])
-        ->name('viewSetting');
+
 
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');

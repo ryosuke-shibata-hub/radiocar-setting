@@ -6,10 +6,10 @@
             投稿されたセッティング情報がありません...<i class="fa-regular fa-comment-dots"></i>
         </p>
     @else
-        <section class="text-gray-600 body-font">
+        <section class="py-5 text-gray-600 body-font">
             @foreach($settingList as $setting_list)
                 <div class="container px-5 mx-auto">
-                    <div class="flex flex-col items-center pb-10 mx-auto mb-10 border-b border-gray-200 lg:w-3/5 sm:flex-row">
+                    <div class="flex flex-col items-center mx-auto mb-3 border-b border-gray-200 pb-53 lg:w-3/5 sm:flex-row">
                         <div class="inline-flex items-center justify-center flex-shrink-0 w-20 h-20 sm:w-32 sm:h-32 sm:mr-10">
                             <img src="{{ Storage::url($setting_list->image_1) }}" class="rounded-lg">
                         </div>

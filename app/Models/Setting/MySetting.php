@@ -5,7 +5,9 @@ namespace App\Models\Setting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
+use Log;
 class MySetting extends Model
 {
     use HasFactory;
@@ -20,16 +22,33 @@ class MySetting extends Model
     ];
 
 
-    public static function SettingList($account_id = null, $setting_id = null)
+    public static function SettingList($account_id = null, $setting_id = null, $publish_flg = null)
     {
         $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
         $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
-        $publish_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
+        $publish_setting_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
 
         $data = MySetting::where('rc_setting.delete_flg', $setting_delete_flg)
-        ->where('publish_setting_flg', $publish_flg)
         ->join('users','rc_setting.account_uuid','=','users.account_uuid')
         ->where('users.delete_flg',$user_delete_flg)
+        //トップページ（公開範囲は全公開のみ）
+        ->when(!empty($publish_flg), function($query) use ($publish_flg) {
+            return $query->where('rc_setting.publish_setting_flg', '=', $publish_setting_flg);
+        })
+        //ユーザーページ（認証ユーザー以外はそのユーザーの公開設定のものを表示）
+        ->when(!empty($account_id) && !Auth::check(), function($query) use ($publish_setting_flg, $account_id) {
+            return $query->where('rc_setting.publish_setting_flg', '=', $publish_setting_flg)
+                ->where('users.account_id', '=', $account_id);
+        })
+        //ユーザーページ（認証ユーザーが自分のページ見てたら全て表示）
+        ->when(!empty($account_id) && Auth::check() && Auth::user()->account_id == $account_id, function($query) use ($account_id) {
+            return $query->where('users.account_id', '=', $account_id);
+        })
+        //ユーザーページ（認証ユーザーが自分のページ見てたら全て表示）
+        ->when(!empty($account_id) && Auth::check() && Auth::user()->account_id != $account_id, function($query) use ($account_id,$publish_setting_flg) {
+            return $query->where('users.account_id', '=', $account_id)
+                ->where('rc_setting.publish_setting_flg', '=', $publish_setting_flg);
+        })
         ->orderBy('rc_setting.update_date', 'desc')
         ->get();
 

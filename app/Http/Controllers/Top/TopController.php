@@ -10,8 +10,10 @@ class TopController extends Controller
 {
     public function topPage()
     {
-        $settingList = MySetting::SettingList();
-        dd($settingList);
-        return view('contents.top_page');
+        $publish_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
+        $settingList = MySetting::SettingList($publish_flg);
+
+        return view('contents.top_page')
+        ->with('settingList', $settingList);
     }
 }
