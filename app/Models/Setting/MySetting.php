@@ -22,7 +22,7 @@ class MySetting extends Model
     ];
 
 
-    public static function SettingList($account_id = null, $setting_id = null, $publish_flg = null)
+    public static function SettingList($account_id = null, $setting_id = null)
     {
         $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
         $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
@@ -32,7 +32,7 @@ class MySetting extends Model
         ->join('users','rc_setting.account_uuid','=','users.account_uuid')
         ->where('users.delete_flg',$user_delete_flg)
         //トップページ（公開範囲は全公開のみ）
-        ->when(!empty($publish_flg), function($query) use ($publish_flg) {
+        ->when(empty($account_id) && empty($account_id), function($query) use ($publish_setting_flg) {
             return $query->where('rc_setting.publish_setting_flg', '=', $publish_setting_flg);
         })
         //ユーザーページ（認証ユーザー以外はそのユーザーの公開設定のものを表示）
