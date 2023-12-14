@@ -22,17 +22,29 @@
                             </h2>
 
                             <p class="text-xs leading-relaxed">
-                                <a href="">
+                                <form action="/rc-setting/top/" method="GET">
                                     @if($setting_list->genre == 0)
-                                        #オンロード
+                                        <input type="hidden" name="tag" value="0">
+                                        <button type="submit">
+                                            #オンロード
+                                        </button>
                                     @elseif($setting_list->genre == 1)
-                                        #オフロード
+                                        <input type="hidden" name="tag" value="1">
+                                        <button type="submit">
+                                            #オフロード
+                                        </button>
                                     @elseif($setting_list->genre == 2)
-                                        #ドリフト
+                                        <input type="hidden" name="tag" value="2">
+                                        <button type="submit">
+                                            #ドリフト
+                                        </button>
                                     @else
-                                        #その他
+                                        <input type="hidden" name="tag" value="10">
+                                        <button type="submit">
+                                            #その他
+                                        </button>
                                     @endif
-                                </a>
+                                </form>
                             </p>
                             <p class="mb-2">
                                 <a href="/rc-setting/setting/{{ $setting_list->setting_id }}" class="inline-flex items-center mt-3 text-indigo-500">セッティング詳細

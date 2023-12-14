@@ -90,9 +90,10 @@ class User extends Authenticatable
         return $checkUniqueUser;
     }
 
-    public static function findUserToUserId($account_id)
+    public static function findUserToUserId($request)
     {
         $delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+        $account_id = $request->account_id;
 
         $result = User::where('account_id', $account_id)
         ->where('delete_flg', $delete_flg)

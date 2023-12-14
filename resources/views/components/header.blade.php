@@ -12,11 +12,15 @@
 
         <nav :class="{'flex': open, 'hidden': !open}" class="flex-col items-center flex-grow hidden pb-4 border-blue-600 md:pb-0 md:flex md:justify-end md:flex-row lg:border-l-2 lg:pl-2">
             @if(Auth::check())
-                <a
-                    href="/rc-setting/userpage/{{ Auth::user()->account_id }}"
+            <form action="/rc-setting/userpage/" method="GET">
+                <input type="hidden" name="account_id" value="{{ Auth::user()->account_id }}">
+                <button
+                    {{-- href="/rc-setting/userpage/{{ Auth::user()->account_id }}" --}}
+                    type="submit"
                     class="px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline">
                     マイページ
-                </a>
+                </button>
+            </form>
             @endif
             <a
                 class="px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline" href="/rc-setting/top">

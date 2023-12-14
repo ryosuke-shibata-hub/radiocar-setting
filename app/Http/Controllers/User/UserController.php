@@ -20,10 +20,10 @@ class UserController extends Controller
         $this->logoPath = config('const.USER.ACCOUNTLOGO.DIRPATH.PATH');
     }
 
-    public function userPage($account_id)
+    public function userPage(Request $request)
     {
-        $targetUser = User::findUserToUserId($account_id);
-        $settingList = MySetting::SettingList($account_id);
+        $targetUser = User::findUserToUserId($request);
+        $settingList = MySetting::SettingList($request);
 
         return view('contents.user_page')
         ->with('targetUser', $targetUser)

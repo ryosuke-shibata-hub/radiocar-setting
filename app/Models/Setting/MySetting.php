@@ -22,11 +22,15 @@ class MySetting extends Model
     ];
 
 
-    public static function SettingList($account_id = null, $setting_id = null)
+    public static function SettingList($request)
     {
+        // dd($request);
         $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
         $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
         $publish_setting_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
+        $account_id = $request->account_id;
+        $searchKeyword = $request->search;
+        $tag = $request->tag;
 
         $data = MySetting::where('rc_setting.delete_flg', $setting_delete_flg)
         ->join('users','rc_setting.account_uuid','=','users.account_uuid')
@@ -49,10 +53,39 @@ class MySetting extends Model
             return $query->where('users.account_id', '=', $account_id)
                 ->where('rc_setting.publish_setting_flg', '=', $publish_setting_flg);
         })
-        ->orderBy('rc_setting.update_date', 'desc')
-        ->get();
+        ->orderBy('rc_setting.update_date', 'desc');
 
-        return $data;
+        if ($searchKeyword) {
+            $data = $data
+            ->where(function($query) use($searchKeyword) {
+                $query->orwhere('rc_setting.chassis','like','%'. $searchKeyword . '%')
+                    ->orWhere('rc_setting.driving_scene','like','%'. $searchKeyword . '%')
+                    ->orWhere('rc_setting.transmitter','like','%'. $searchKeyword . '%');
+            });
+        }
+
+        if ($tag) {
+            $data = $data
+            ->where('rc_setting.genre', '=', $tag);
+        }
+
+        return $data->get();
+    }
+
+    public static function searchSetting($searchKeyword)
+    {
+        $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+        $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
+        $publish_setting_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
+
+        $data = MySetting::where('rc_setting.delete_flg', $setting_delete_flg)
+        ->where('rc_setting.publish_setting_flg', '=', $publish_setting_flg)
+        ->leftjoin('users','rc_setting.account_uuid','=','users.account_uuid')
+        ->where('users.delete_flg',$user_delete_flg);
+
+
+
+        return $data->get();
     }
     public static function storeMySetting($storeSettingtData)
     {
@@ -100,4 +133,6 @@ class MySetting extends Model
 
         return $storeData;
     }
+
+
 }
