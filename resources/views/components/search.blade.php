@@ -1,37 +1,6 @@
 <div class="text-gray-600 body-font">
   <div class="container px-5 py-3 mx-auto">
     <div class="flex flex-wrap order-first text-center md:text-left">
-      {{-- <div class="w-full px-4 lg:w-1/4 md:w-1/2">
-        <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 title-font">ジャンル</h2>
-        <nav class="mb-10 list-none">
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">First Link</a>
-          </li>
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">Second Link</a>
-          </li>
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">Third Link</a>
-          </li>
-        </nav>
-      </div> --}}
-      {{-- <div class="w-full px-4 lg:w-1/4 md:w-1/2"> --}}
-        {{-- <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 title-font">CATEGORIES</h2>
-        <nav class="mb-10 list-none">
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">First Link</a>
-          </li>
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">Second Link</a>
-          </li>
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">Third Link</a>
-          </li>
-          <li>
-            <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-          </li>
-        </nav> --}}
-      {{-- </div> --}}
       <div class="w-full px-4 lg:w-4/6 md:w-1/2">
         <div class="flex flex-wrap items-end justify-center xl:flex-nowrap md:flex-nowrap lg:flex-wrap md:justify-end">
           <div class="relative w-40 mr-2 sm:w-auto xl:mr-4 lg:mr-0 sm:mr-4">

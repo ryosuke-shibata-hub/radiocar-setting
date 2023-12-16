@@ -24,7 +24,6 @@ class MySetting extends Model
 
     public static function SettingList($request)
     {
-        // dd($request);
         $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
         $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
         $publish_setting_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
@@ -134,5 +133,30 @@ class MySetting extends Model
         return $storeData;
     }
 
+    public static function SettingDetail($setting_id)
+    {
+        $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+        $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
+        $publish_setting_flg = config('const.RCSETTING.PUBLISHSETTING.PUBLIC');
+
+        $data = MySetting::where('rc_setting.setting_id',$setting_id)
+        ->where('rc_setting.delete_flg',$setting_delete_flg)
+        ->join('users','rc_setting.account_uuid','=','users.account_uuid')
+        ->where('users.delete_flg',$user_delete_flg);
+        if (Auth::check()) {
+            //認証ユーザーだったらIDをチェック
+            $auth_user_account_uuid = Auth::user()->account_uuid;
+            $data->where(function($query)use($auth_user_account_uuid, $publish_setting_flg){
+                //投稿したユーザーが認証ユーザーじゃなかったら公開設定のみ表示
+                $query->where('users.account_uuid', $auth_user_account_uuid)
+                    ->orWhere('rc_setting.publish_setting_flg', $publish_setting_flg);
+            });
+        } else {
+            //未認証ユーザーだったら公開設定のみ表示
+            $data->where('rc_setting.publish_setting_flg', $publish_setting_flg);
+        }
+
+        return $data->first();
+    }
 
 }

@@ -37,9 +37,6 @@ Route::prefix('/rc-setting')->group(function() {
     //トップページ画面
     Route::get('/top', [TopController::class, 'topPage'])
     ->name('topPage');
-    // //セッティングの検索結果
-    // Route::get('/setting/search', [TopController::class, 'searchSetting'])
-    // ->name('searchSetting');
     //セッティングの詳細画面
     Route::get('/setting/{setting_id}', [SettingController::class, 'viewSetting'])
     ->name('viewSetting');

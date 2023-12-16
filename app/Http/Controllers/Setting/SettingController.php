@@ -16,14 +16,18 @@ class SettingController extends Controller
     public function viewSetting($setting_id)
     {
         try {
-            $targetSetting = MySetting::viewSetting($setting_id);
+            $targetSetting = MySetting::SettingDetail($setting_id);
 
+            if (empty($targetSetting)) {
+                Log::error("セッティング詳細画面で例外処理",[$th]);
+                return redirect('/rc-setting/error/404');
+            }
             return view('contents.view_setting')
             ->with('targetSetting', $targetSetting);
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::error("セッティング詳細画面で例外処理",[$th]);
+            return redirect('/rc-setting/error/404');
         }
-
     }
     public function editMySetting()
     {
