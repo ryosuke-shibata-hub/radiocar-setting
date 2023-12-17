@@ -66,7 +66,9 @@ Route::prefix('/rc-setting')->group(function() {
         //セッティングの投稿処理
         Route::post('/store/setting/mysetting', [SettingController::class, 'storeMySetting'])
         ->name('storeMySetting');
-
+        //セッティングの削除
+        Route::post('/setting/delete', [SettingController::class, 'deleteMySetting'])
+        ->name('deleteMySetting');
 
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
