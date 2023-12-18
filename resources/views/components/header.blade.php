@@ -67,7 +67,7 @@
                         />
                     </div>
                     <a
-                        href="/rc-setting/store/setting/edit/mysetting"
+                        href="/rc-setting/create/setting/mysetting"
                         class="items-center block px-2 py-2 text-xs text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         セッティングを登録する
                     </a>

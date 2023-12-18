@@ -30,7 +30,7 @@ class SettingController extends Controller
             return redirect('/rc-setting/error/404');
         }
     }
-    public function editMySetting()
+    public function createMySetting()
     {
         return vieW('contents.edit_setting');
     }
@@ -74,7 +74,7 @@ class SettingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('/rc-setting/store/setting/edit/mysetting')
+            return redirect('/rc-setting/create/setting/mysetting')
             ->withErrors($validator)
             ->withInput();
         }
@@ -140,7 +140,7 @@ class SettingController extends Controller
             ->with('succsess_message','okまる');
         } catch (\Throwable $th) {
             Log::error('セッティングの登録で例外処理',[$th]);
-            return redirect('/rc-setting/store/setting/edit/mysetting')
+            return redirect('/rc-setting/create/setting/mysetting')
             ->with('err_message','セッティングの登録に失敗しました。再度登録してください。');
         }
     }
@@ -152,7 +152,7 @@ class SettingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Log::error("セッティング詳細画面で例外処理",[$th]);
+            Log::error("セッティング詳細画面で例外処理",[$validator]);
             return redirect('/rc-setting/error/401');
         }
 
@@ -177,6 +177,22 @@ class SettingController extends Controller
             Log::error('セッティングの削除で例外処理',[$th]);
             return redirect('/rc-setting/top')
             ->with('err_message','セッティングの削除に失敗しました。再度削除操作を行なってください。');
+        }
+    }
+
+    public function editMySetting($settingId)
+    {
+        if (empty($settingId)) {
+            Log::error("セッティング詳細画面で例外処理",[$settingId]);
+            return redirect('/rc-setting/error/401');
+        }
+
+        try {
+            $setting_id = $settingId;
+            $targeEdittSettingId = MySetting::SettingDetail($setting_id);
+            dd($targeEdittSettingId);
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

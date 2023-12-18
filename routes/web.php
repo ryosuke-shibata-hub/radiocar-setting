@@ -61,7 +61,7 @@ Route::prefix('/rc-setting')->group(function() {
         Route::POST('/user/delete', [UserController::class, 'deleteAccount'])
         ->name('deleteAccount');
         //セッティングの投稿画面
-        Route::get('/store/setting/edit/mysetting', [SettingController::class, 'editMySetting'])
+        Route::get('/create/setting/mysetting', [SettingController::class, 'createMySetting'])
         ->name('storeMySetting');
         //セッティングの投稿処理
         Route::post('/store/setting/mysetting', [SettingController::class, 'storeMySetting'])
@@ -69,7 +69,9 @@ Route::prefix('/rc-setting')->group(function() {
         //セッティングの削除
         Route::post('/setting/delete', [SettingController::class, 'deleteMySetting'])
         ->name('deleteMySetting');
-
+        //セッティングの編集
+        Route::get('/setting/edit/{settingId}',[SettingController::class, 'editMySetting'])
+        ->name('editMySetting');
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 

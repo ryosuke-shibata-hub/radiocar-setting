@@ -229,9 +229,7 @@
             </div>
             @if(Auth::check() && $targetSetting->account_uuid == Auth::user()->account_uuid)
                 <div class="flex justify-end pt-5 text-sm text-left">
-                    <form action="" method="GET">
-                        @csrf
-                        <input type="hidden" name="targetSettingId" value="{{ $targetSetting->setting_id }}">
+                    <form action="/rc-setting/setting/edit/{{ $targetSetting->setting_id }}" method="GET">
                         <button
                             type="submit"
                             class="px-3 py-3 text-xs text-left text-white transition duration-500 ease-in-out transform bg-blue-500 border-2 border-blue-100 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
