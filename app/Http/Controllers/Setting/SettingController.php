@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Setting\MySetting;
 
 use Log;
+use DB;
 class SettingController extends Controller
 {
     public function viewSetting($setting_id)
@@ -87,6 +88,7 @@ class SettingController extends Controller
 
         try {
 
+            DB::beginTransaction();
             $requestImg = $request->file('setting_image');
 
             $updateLogo = null;
@@ -133,12 +135,48 @@ class SettingController extends Controller
 
             $storeMySetting = MySetting::storeMySetting($storeSettingtData);
 
+            DB::commit();
             return redirect('/rc-setting/top')
             ->with('succsess_message','okまる');
         } catch (\Throwable $th) {
             Log::error('セッティングの登録で例外処理',[$th]);
             return redirect('/rc-setting/store/setting/edit/mysetting')
             ->with('err_message','セッティングの登録に失敗しました。再度登録してください。');
+        }
+    }
+
+    public function deleteMySetting(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'targetSettingId' => ['string','bail', 'required'],
+        ]);
+
+        if ($validator->fails()) {
+            Log::error("セッティング詳細画面で例外処理",[$th]);
+            return redirect('/rc-setting/error/401');
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            $targetSettingId = $request->targetSettingId;
+            // $targetSettingId = 'aksbdnv';
+            $deleteSetting = MySetting::deleteSetting($targetSettingId);
+
+            if (empty($deleteSetting)) {
+                Log::error("セッティング詳細画面で例外処理。対処のセッティングIDがない",[$targetSettingId]);
+                return redirect('/rc-setting/error/401');
+            }
+
+            DB::commit();
+
+            return redirect('/rc-setting/top')
+            ->with('succsess_message','セッティングを削除しました。');
+        } catch (\Throwable $th) {
+            Log::error('セッティングの削除で例外処理',[$th]);
+            return redirect('/rc-setting/top')
+            ->with('err_message','セッティングの削除に失敗しました。再度削除操作を行なってください。');
         }
     }
 }

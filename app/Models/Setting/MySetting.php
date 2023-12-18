@@ -159,4 +159,24 @@ class MySetting extends Model
         return $data->first();
     }
 
+    public static function deleteSetting($targetSettingId)
+    {
+        $setting_delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
+        $setting_delete_flg_update_disabled = config('const.RCSETTING.DELETE_FLG.DISABLED');
+        $targetUser = Auth::user()->account_uuid;
+
+        $targetData = MySetting::where('setting_id', $targetSettingId)
+        ->where('account_uuid', $targetUser)
+        ->where('delete_flg', $setting_delete_flg)
+        ->first();
+
+        if ($targetData) {
+            $targetData = $targetData;
+            $targetData->delete_flg = $setting_delete_flg_update_disabled;
+            $targetData->update_date = now();
+            $targetData->save();
+        }
+
+        return $targetData;
+    }
 }
