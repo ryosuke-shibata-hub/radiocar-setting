@@ -19,7 +19,12 @@
                     </span>
                 </div>
                 @include('components.Message.error_message')
-                <form action="/rc-setting/store/setting/mysetting" method="POST" enctype="multipart/form-data">
+                @if(isset($targeEdittSettingId))
+                    <form action="/rc-setting/update/setting/mysetting" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="targetSettingId" value={{ $targeEdittSettingId->setting_id }}>
+                @else
+                    <form action="/rc-setting/store/setting/mysetting" method="POST" enctype="multipart/form-data">
+                @endif
                 @csrf
                     <input type="hidden" name="targetAccountId" value={{ Auth::user()->account_uuid }}>
                     <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 lg:grid-cols-3">
@@ -31,7 +36,7 @@
                             <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-3">
                                 <div class="text-xs md:col-span-1">
                                     <label for="corse">コース・場所</label>
-                                    <input type="text" name="corse" id="corse" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="RC-SETTINGサーキット" />
+                                    <input type="text" name="corse" id="corse" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->driving_scene : ''}}" placeholder="RC-SETTINGサーキット" />
                                 </div>
 
                                 <div class="text-xs md:col-span-1">
@@ -40,23 +45,35 @@
                                         id="genre"
                                         name="genre"
                                         class="block w-full p-2 mt-1 text-sm text-gray-900 border border-gray-500 rounded bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option selected value="">----</option>
+                                        <option value="">----</option>
                                         <option
+                                            @if(isset($targeEdittSettingId) && $targeEdittSettingId->genre == config('const.RCSETTING.GENRE.ONROAD'))
+                                                selected
+                                            @endif
                                             name="genre"
                                             value="{{ config('const.RCSETTING.GENRE.ONROAD') }}">
                                             オンロード
                                         </option>
                                         <option
+                                            @if(isset($targeEdittSettingId) && $targeEdittSettingId->genre == config('const.RCSETTING.GENRE.OFFROAD'))
+                                                selected
+                                            @endif
                                             name="genre"
                                             value="{{ config('const.RCSETTING.GENRE.OFFROAD') }}">
                                             オフロード
                                         </option>
                                         <option
+                                            @if(isset($targeEdittSettingId) && $targeEdittSettingId->genre == config('const.RCSETTING.GENRE.DRIFT'))
+                                                selected
+                                            @endif
                                             name="genre"
                                             value="{{ config('const.RCSETTING.GENRE.DRIFT') }}">
                                             ドリフト
                                         </option>
                                         <option
+                                            @if(isset($targeEdittSettingId) && $targeEdittSettingId->genre == config('const.RCSETTING.GENRE.OTHER'))
+                                                selected
+                                            @endif
                                             name="genre"
                                             value="{{ config('const.RCSETTING.GENRE.OTHER') }}">
                                             その他
@@ -75,11 +92,11 @@
                             <div class="grid grid-cols-1 gap-4 text-sm gap-y-2 md:grid-cols-3">
                                 <div class="text-xs md:col-span-1">
                                     <label for="chassis">シャーシ</label>
-                                    <input type="text" name="chassis" id="chassis" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TAMIYA TT-02" />
+                                    <input type="text" name="chassis" id="chassis" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->chassis : ''}}" placeholder="TAMIYA TT-02" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="transmitter">プロポ</label>
-                                    <input type="text" name="transmitter" id="transmitter" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="SANNWA M17" />
+                                    <input type="text" name="transmitter" id="transmitter" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->transmitter : ''}}" placeholder="SANNWA M17" />
                                 </div>
                             </div>
                         </div>
@@ -93,28 +110,28 @@
                             <div class="grid grid-cols-2 gap-4 text-sm gap-y-2 md:grid-cols-5">
                                 <div class="text-xs md:col-span-1">
                                     <label for="amp">アンプ</label>
-                                    <input type="text" name="amp" id="amp" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="G-Force BLC90" />
+                                    <input type="text" name="amp" id="amp" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->amp : ''}}" placeholder="G-Force BLC90" />
                                 </div>
 
                                 <div class="text-xs md:col-span-1">
                                     <label for="servo">サーボ</label>
-                                    <input type="text" name="servo" id="servo" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="SANNWA PGS-CL2" />
+                                    <input type="text" name="servo" id="servo" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->servo : ''}}" placeholder="SANNWA PGS-CL2" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="gyro">ジャイロ</label>
-                                    <input type="text" name="gyro" id="gyro" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="SANNWA SGS-02" />
+                                    <input type="text" name="gyro" id="gyro" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->gyro : ''}}" placeholder="SANNWA SGS-02" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="motor">モーター</label>
-                                    <input type="text" name="motor" id="motor" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="G-Force 神威" />
+                                    <input type="text" name="motor" id="motor" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->motor : ''}}" placeholder="G-Force 神威" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="body">ボディ</label>
-                                    <input type="text" name="body" id="body" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TAMIYA GR86" />
+                                    <input type="text" name="body" id="body" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->body : ''}}" placeholder="TAMIYA GR86" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="other_1">Other</label>
-                                    <input type="text" name="other_1" id="other_1" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
+                                    <input type="text" name="other_1" id="other_1" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->other_1 : ''}}" placeholder="" />
                                 </div>
                             </div>
                         </div>
@@ -128,37 +145,37 @@
                             <div class="grid grid-cols-2 gap-4 text-sm gap-y-2 md:grid-cols-4">
                                 <div class="text-xs md:col-span-1">
                                     <label for="camber_f">キャンバー/F</label>
-                                    <input type="text" name="camber_f" id="camber_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="-3" />
+                                    <input type="text" name="camber_f" id="camber_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->camber_f : ''}}" placeholder="-3" />
                                 </div>
 
                                 <div class="text-xs md:col-span-1">
                                     <label for="camber_r">キャンバー/R</label>
-                                    <input type="text" name="camber_r" id="camber_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="-3" />
+                                    <input type="text" name="camber_r" id="camber_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->camber_r : ''}}" placeholder="-3" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="toe_f">トー/F</label>
-                                    <input type="text" name="toe_f" id="toe_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="-3" />
+                                    <input type="text" name="toe_f" id="toe_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->tor_f : ''}}" placeholder="-3" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="toe_r">トー/R</label>
-                                    <input type="text" name="toe_r" id="toe_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="0" />
+                                    <input type="text" name="toe_r" id="toe_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->toe_r : ''}}" placeholder="0" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="height_f">車高/F/mm</label>
-                                    <input type="text" name="height_f" id="height_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="10" />
+                                    <input type="text" name="height_f" id="height_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->height_f : ''}}" placeholder="10" />
                                 </div>
 
                                 <div class="text-xs md:col-span-1">
                                     <label for="height_r">車高/R/mm</label>
-                                    <input type="text" name="height_r" id="height_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="8" />
+                                    <input type="text" name="height_r" id="height_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->height_r : ''}}" placeholder="8" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="caster_f">キャスター/F</label>
-                                    <input type="text" name="caster_f" id="caster_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="5" />
+                                    <input type="text" name="caster_f" id="caster_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->caster_f : ''}}" placeholder="5" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="caster_r">キャスター/R</label>
-                                    <input type="text" name="caster_r" id="caster_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="0" />
+                                    <input type="text" name="caster_r" id="caster_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->caster_r : ''}}" placeholder="0" />
                                 </div>
                             </div>
                         </div>
@@ -171,16 +188,16 @@
                             <div class="grid grid-cols-2 gap-4 text-sm gap-y-2 md:grid-cols-4">
                                 <div class="text-xs md:col-span-1">
                                     <label for="spur_gear">スパーギア</label>
-                                    <input type="text" name="spur_gear" id="spur_gear" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="78" />
+                                    <input type="text" name="spur_gear" id="spur_gear" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->spur_gear : ''}}" placeholder="78" />
                                 </div>
 
                                 <div class="text-xs md:col-span-1">
                                     <label for="pinion_gear">ピニオンギア</label>
-                                    <input type="text" name="pinion_gear" id="pinion_gear" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="18" />
+                                    <input type="text" name="pinion_gear" id="pinion_gear" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->pinion_gear : ''}}" placeholder="18" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="other_2">Other</label>
-                                    <input type="text" name="other_2" id="other_2" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
+                                    <input type="text" name="other_2" id="other_2" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->other_2 : ''}}" placeholder="" />
                                 </div>
                             </div>
                         </div>
@@ -193,37 +210,37 @@
                             <div class="grid grid-cols-1 gap-4 pb-2 text-sm gap-y-2 md:grid-cols-4">
                                 <div class="text-xs md:col-span-1">
                                     <label for="shock">ショック</label>
-                                    <input type="text" name="shock" id="shock" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TAMIYA TRFダンパー" />
+                                    <input type="text" name="shock" id="shock" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->shock : ''}}" placeholder="TAMIYA TRFダンパー" />
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-4 text-sm gap-y-2 md:grid-cols-4">
                                 <div class="text-xs md:col-span-1">
                                     <label for="oil_f">オイル/F/#</label>
-                                    <input type="text" name="oil_f" id="oil_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="30" />
+                                    <input type="text" name="oil_f" id="oil_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->oil_f : ''}}" placeholder="30" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="oil_r">オイル/R/#</label>
-                                    <input type="text" name="oil_r" id="oil_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="10" />
+                                    <input type="text" name="oil_r" id="oil_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->oil_r : ''}}" placeholder="10" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="spring_f">スプリング/F</label>
-                                    <input type="text" name="spring_f" id="spring_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TAMIYA ハード（青）" />
+                                    <input type="text" name="spring_f" id="spring_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->spring_f : ''}}" placeholder="TAMIYA ハード（青）" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="spring_r">スプリング/R</label>
-                                    <input type="text" name="spring_r" id="spring_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TAMIYA ソフト（赤）" />
+                                    <input type="text" name="spring_r" id="spring_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->spring_r : ''}}" placeholder="TAMIYA ソフト（赤）" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="piston_f">ピストン/F</label>
-                                    <input type="text" name="piston_f" id="piston_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TRFチタンコードシャフト" />
+                                    <input type="text" name="piston_f" id="piston_f" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->piston_f : ''}}" placeholder="TRFチタンコードシャフト" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="piston_r">ピストン/R</label>
-                                    <input type="text" name="piston_r" id="piston_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="TRFチタンコードシャフト" />
+                                    <input type="text" name="piston_r" id="piston_r" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->piston_r : ''}}" placeholder="TRFチタンコードシャフト" />
                                 </div>
                                 <div class="text-xs md:col-span-1">
                                     <label for="other_3">Other</label>
-                                    <input type="text" name="other_3" id="other_3" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="" placeholder="" />
+                                    <input type="text" name="other_3" id="other_3" class="w-full h-10 px-4 mt-1 border rounded bg-gray-50" value="{{ isset($targeEdittSettingId) ? $targeEdittSettingId->other_3 : ''}}" placeholder="" />
                                 </div>
                             </div>
                         </div>
@@ -244,7 +261,7 @@
                                     value=""
                                     placeholder="etc..."
                                     style="height:200px;"
-                                    ></textarea>
+                                    >{{ isset($targeEdittSettingId) ? $targeEdittSettingId->memo : ''}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +293,11 @@
                         <div class="lg:col-span-4">
                             <div class="grid grid-cols-1 gap-4 pb-2 text-sm gap-y-2 md:grid-cols-4">
                                 <div class="text-xs md:col-span-1">
-                                   <div class="md:flex row" id="preview"></div>
+                                   <div class="md:flex row" id="preview">
+                                    @if(isset($targeEdittSettingId) && $targeEdittSettingId->image_1)
+                                        <img src={{ Storage::url($targeEdittSettingId->image_1) }} class="grid-cols-1 p-1 rounded-lg" id="preImage" />
+                                    @endif
+                                   </div>
                                 </div>
                             </div>
                         </div>
@@ -292,13 +313,19 @@
                                         id="countries"
                                         name="publish_setting_flg"
                                         class="block w-full p-2 mt-1 text-sm text-gray-900 border border-gray-500 rounded bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option selected value="">----</option>
+                                        <option value="">----</option>
                                         <option
+                                            @if(isset($targeEdittSettingId) && $targeEdittSettingId->publish_setting_flg == config('const.RCSETTING.PUBLISHSETTING.PUBLIC'))
+                                                selected
+                                            @endif
                                             name="publish_setting_flg"
                                             value="{{ config('const.RCSETTING.PUBLISHSETTING.PUBLIC') }}">
                                             公開
                                         </option>
                                         <option
+                                            @if(isset($targeEdittSettingId) && $targeEdittSettingId->publish_setting_flg == config('const.RCSETTING.PUBLISHSETTING.PRIVATE'))
+                                                selected
+                                            @endif
                                             name="publish_setting_flg"
                                             value="{{ config('const.RCSETTING.PUBLISHSETTING.PRIVATE') }}">
                                             非公開
@@ -314,7 +341,11 @@
                                 type="submit"
                                 class="px-2 py-3 text-xs text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-gray-100 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                             >
-                                セッティングを登録する
+                                @if(isset($targeEdittSettingId))
+                                    セッティングを更新する
+                                @else
+                                    セッティングを登録する
+                                @endif
                             </button>
                         </div>
                     </div>

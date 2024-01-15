@@ -70,8 +70,10 @@ Route::prefix('/rc-setting')->group(function() {
         Route::post('/setting/delete', [SettingController::class, 'deleteMySetting'])
         ->name('deleteMySetting');
         //セッティングの編集
-        Route::get('/setting/edit/{settingId}',[SettingController::class, 'editMySetting'])
+        Route::get('/edit/setting/{settingId}',[SettingController::class, 'editMySetting'])
         ->name('editMySetting');
+        Route::post('/update/setting/mysetting', [SettingController::class, 'updateMySetting'])
+        ->name('updateMySetting');
     });
     // Route::get('/', [TopPage::class, 'welcome'])->name('welcome');
 

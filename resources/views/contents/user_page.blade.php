@@ -3,6 +3,8 @@
 @section('title', 'ユーザーページ')
 <div class="px-16" style="min-height: 500px">
     <div class="px-10 mx-auto bg-white shadow-lg w-100 rounded-2xl dark:bg-gray-800">
+        @include('components.Message.succsess_message')
+        @include('components.Message.error_message')
         <div class="w-full mb-4 rounded-t-lg h-28"></div>
         <div class="flex flex-col items-center justify-center p-4 -mt-16">
             <img

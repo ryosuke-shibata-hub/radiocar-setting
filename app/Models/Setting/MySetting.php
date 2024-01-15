@@ -13,6 +13,7 @@ class MySetting extends Model
     use HasFactory;
 
     protected $table = 'rc_setting';
+    // protected $primaryKey = 'setting_id';
 
     public $timestamps = false;
 
@@ -178,5 +179,62 @@ class MySetting extends Model
         }
 
         return $targetData;
+    }
+
+    public static function updateMySetting($updateSettingtData)
+    {
+        $user_delete_flg = config('const.USER.DELETE_FLG.ACTIVE');
+        $delete_flg = config('const.RCSETTING.DELETE_FLG.ACTIVE');
+        $updateUserId = $updateSettingtData['targetAuthUser'];
+        $targetSettingId = $updateSettingtData['targetSettingId'];
+
+        $targetSetting = MySetting::where('rc_setting.setting_id',$targetSettingId)
+        ->where('rc_setting.delete_flg', $delete_flg)
+        ->where('rc_setting.account_uuid', $updateUserId)
+        ->first();
+
+        // dd($targetSetting);
+        Log::debug("message",[$targetSetting]);
+
+        // $targetSetting = $targetSetting;
+        $targetSetting->driving_scene = $updateSettingtData['corse'];
+        $targetSetting->genre = $updateSettingtData['genre'];
+        $targetSetting->chassis = $updateSettingtData['chassis'];
+        $targetSetting->body = $updateSettingtData['body'];
+        $targetSetting->transmitter = $updateSettingtData['transmitter'];
+        $targetSetting->amp = $updateSettingtData['amp'];
+        $targetSetting->servo = $updateSettingtData['servo'];
+        $targetSetting->gyro = $updateSettingtData['gyro'];
+        $targetSetting->motor = $updateSettingtData['motor'];
+        $targetSetting->camber_f = $updateSettingtData['camber_f'];
+        $targetSetting->camber_r = $updateSettingtData['camber_r'];
+        $targetSetting->toe_f = $updateSettingtData['toe_f'];
+        $targetSetting->toe_r = $updateSettingtData['toe_r'];
+        $targetSetting->height_f = $updateSettingtData['height_f'];
+        $targetSetting->height_r = $updateSettingtData['height_r'];
+        $targetSetting->caster_f = $updateSettingtData['caster_f'];
+        $targetSetting->caster_r = $updateSettingtData['caster_r'];
+        $targetSetting->spur_gear = $updateSettingtData['spur_gear'];
+        $targetSetting->pinion_gear = $updateSettingtData['pinion_gear'];
+        $targetSetting->shock = $updateSettingtData['shock'];
+        $targetSetting->oil_f = $updateSettingtData['oil_f'];
+        $targetSetting->oil_r = $updateSettingtData['oil_r'];
+        $targetSetting->spring_f = $updateSettingtData['spring_f'];
+        $targetSetting->spring_r = $updateSettingtData['spring_r'];
+        $targetSetting->piston_f = $updateSettingtData['piston_f'];
+        $targetSetting->piston_r = $updateSettingtData['piston_r'];
+        $targetSetting->other_1 = $updateSettingtData['other_1'];
+        $targetSetting->other_2 = $updateSettingtData['other_2'];
+        $targetSetting->other_3 = $updateSettingtData['other_3'];
+        $targetSetting->memo = $updateSettingtData['memo'];
+        $targetSetting->publish_setting_flg = $updateSettingtData['publish_setting_flg'];
+        if ($updateSettingtData['setting_image']) {
+            $targetSetting->image_1 = $updateSettingtData['setting_image'];
+        }
+        $targetSetting->update_date = now();
+        $targetSetting->save();
+
+        // dd($targetSetting);
+        return $targetSetting;
     }
 }
